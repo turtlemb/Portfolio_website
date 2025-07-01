@@ -1,6 +1,7 @@
 # Portfolio Website Python Server
 
 from flask import Flask, request, redirect, render_template, url_for
+from datetime import datetime
 import csv
 
 app = Flask(__name__)
@@ -18,7 +19,7 @@ def write_to_file(data):
         email = data['email']
         name = data['name']
         message =  data['message']
-        file = database.write(f'\n{email}, {name}, {message}')
+        file = database.write(f'\n {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, {email}, {name}, {message}')
 
 def write_to_csv(data):
     with open('./database.csv', mode = 'a', newline='') as database2:
@@ -26,7 +27,7 @@ def write_to_csv(data):
         name = data['name']
         message =  data['message']
         csv_writer = csv.writer(database2, delimiter = ',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        csv_writer.writerow([email, name, message])
+        csv_writer.writerow([datetime.now().strftime("%Y-%m-%d %H:%M:%S"), email, name, message])
 
 # this bit of code allows us to grab data from our webpage
 # form for potential employers to contact us for work:
